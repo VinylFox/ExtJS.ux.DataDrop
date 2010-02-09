@@ -1,0 +1,51 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Basic Event Forwarding Example</title>
+ 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/ext-core/3.0.0/ext-core.js"></script>
+    <script type="text/javascript" src="../ux/Override.js"></script>
+    <script language="javascript" src="evt-forwarding.js"></script>
+    <style>
+        #masking{
+            background-color: #c0c0c0;
+            opacity: 0.2;
+            -moz-opacity: 0.2;
+            filter:alpha(opacity=20);
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            top: 150px;
+            left: 10px;
+        }
+        #elone{
+            background-color: #00f;
+            width: 250px;
+            height: 250px;
+            position: absolute;
+            top: 170px;
+            left: 20px;
+        }
+        #eltwo{
+            background-color: #f00;
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            top: 300px;
+            left: 170px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Basic Event Forwarding Example</h1>
+
+<p>This example uses Ext Core along with an Override to the lib that handles event forwarding through a masking layer.</p>
+<p>The js is not minified so it is readable. See <a href="evt-forwarding.js">evt-forwarding.js</a>.</p>
+
+<div id="elone">El One - Click me</div>
+<div id="eltwo">El Two - Hover over me</div>
+
+<div id="masking">This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two. This is the Masking layer, which sits above El One and El Two.</div>
+
+</body>
+</html>
