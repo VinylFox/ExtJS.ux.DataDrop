@@ -76,11 +76,13 @@ Ext.ux.grid.DataDrop = (function(){
         var nv = el.value;
         el.blur();
         if (nv !== '') {
+          if (this.fireEvent('beforedatadrop',this,nv,el)){
             var store = this.getStore(), Record = store.recordType;
             el.value = '';
             var rows = nv.split(lineEndRE), cols = this.getColumnModel().getColumnsBy(function(c){
                 return !c.hidden;
-            }), fields = Record.prototype.fields;
+            }), fields = Record.prototype.fields, recs = [];
+            this.fireEvent('datadrop',this,rows);
             if (cols.length && rows.length) {
                 for (var i = 0; i < rows.length; i++) {
                     var vals = rows[i].split(sepRe), data = {};
@@ -91,19 +93,43 @@ Ext.ux.grid.DataDrop = (function(){
                             data[fldName] = fld ? fld.convert(vals[k]) : vals[k];
                         }
                         var newRec = new Record(data);
-                        store.add(newRec);
-                        var idx = store.indexOf(newRec);
-                        this.view.focusRow(idx);
-                        Ext.get(this.view.getRow(idx)).highlight();
+                        recs.push(newRec);
+                        if (!Ext.ux.grid.DataDrop.addBulk){
+                          store.add(newRec);
+                          if (Ext.ux.grid.DataDrop.highlightNewRows){
+                            var idx = store.indexOf(newRec);
+                            this.view.focusRow(idx);
+                            Ext.get(this.view.getRow(idx)).highlight();
+                          }
+                        }
                     }
                 }
+                if (Ext.ux.grid.DataDrop.addBulk && recs && recs.length){
+                  store.add(recs);
+                  if (Ext.ux.grid.DataDrop.highlightNewRows){
+                    for (var i = 0; i < recs.length; i++){
+                      var idx = store.indexOf(recs[i]);
+                      this.view.focusRow(idx);
+                      Ext.get(this.view.getRow(idx)).highlight();
+                    }
+                  }
+                }
+                this.fireEvent('afterdatadrop',this,recs);
                 resizeDropArea.call(this);
             }
+          }else{
+            el.value = '';
+          }
         }
     }
     
     return {
         init: function(cmp){
+            cmp.addEvents({
+              'beforedatadrop': true,
+              'datadrop': true,
+              'afterdatadrop': true
+            });
             Ext.apply(cmp, {
                 changeValueTask: {
                     run: function(){
@@ -118,3 +144,12 @@ Ext.ux.grid.DataDrop = (function(){
         }
     };
 })();
+
+/**
+ * @cfg addBulk {boolean} set true to add all records at once, isntead of individually. 
+ */
+Ext.ux.grid.DataDrop.addBulk = true;
+/**
+ * @cfg highlightNewRows {boolean} set true to highlight rows upon insertion. 
+ */
+Ext.ux.grid.DataDrop.highlightNewRows = true;

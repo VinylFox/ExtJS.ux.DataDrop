@@ -88,7 +88,12 @@ Ext.onReady(function(){
         autoExpandColumn: 'company',
         height: 350,
         width: 600,
-        title: 'Array Grid'    
+        title: 'Array Grid',
+        listeners: {
+          'beforedatadrop': function(){console.log(arguments);/* can do "return false;" here to cancel processing the drop*/},
+          'datadrop': function(){console.log(arguments)},
+          'afterdatadrop': function(){console.log(arguments)}
+        }    
     });
     
     // render the grid to the specified div in the page
